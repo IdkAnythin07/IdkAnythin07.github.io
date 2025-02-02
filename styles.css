@@ -1,0 +1,297 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+ 
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Navigation Menu */
+nav {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #bb86fc;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #9a67ea;
+  transform: translateY(-2px);
+}
+
+nav ul li a:active {
+  transform: translateY(0);
+}
+
+/* Header */
+header h1 {
+  color: #bb86fc;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* About Me Section */
+
+.intro {
+ text-align: center;
+ margin-bottom: 40px;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+ border-radius: 50%;
+  border: 3px solid #bb86fc;
+ margin-bottom: 20px;
+}
+
+.bio {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  line-height: 1.8;
+  color: #e0e0e0;
+}
+
+.highlight {
+  color: #bb86fc;
+  font-weight: bold;
+}
+
+/* Links Section */
+.links {
+  text-align: center;
+}
+
+.links h2 {
+  color: #bb86fc;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.links ul li {
+  margin: 10px 0;
+}
+
+.links ul li a {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.links ul li a:hover {
+  color: #bb86fc;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Contact Form Styles */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form h2 {
+  color: #bb86fc;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.contact-form p {
+  text-align: center;
+  color: #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #e0e0e0;
+}
+
+.form-group input,
+.form-group textarea {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #bb86fc;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #9a67ea;
+}
+/* Secret Button Styling */
+.secret-button {
+  display: inline-block;
+  color: transparent;
+  background-color: transparent;
+  border: none;
+  font-size: 1px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  transition: color 0.3s ease;
+}
+
+.secret-button:hover {
+  color: #bb86fc;
+  font-size: 1rem;
+}
+
+/* Password Form Styling */
+#password-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+#password-form .form-group {
+  margin-bottom: 20px;
+}
+
+#password-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #e0e0e0;
+}
+
+#password-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+#password-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #bb86fc;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+#password-form button:hover {
+  background-color: #9a67ea;
+}
+
+/* Website List Styling */
+.website-list {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.website-list h2 {
+  color: #bb86fc;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.website-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.website-list ul li {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.website-list ul li a {
+  color: #bb86fc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.website-list ul li a:hover {
+  color: #9a67ea;
+}
