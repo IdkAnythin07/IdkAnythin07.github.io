@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Playground · IdkAnythin07</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+  <div class="page-wrap">
+
+    <nav class="site-nav">
+      <a href="../index.html">home</a>
+      <a href="../index.html#about">about</a>
+      <a href="playground.html" class="current" aria-current="page">playground</a>
+      <a href="contact.html">contact</a>
+    </nav>
+
+    <p class="eyebrow">idkanythin07/playground</p>
+    <h1>Code Playground</h1>
+    <p class="lede">
+      Experiment with Python directly in your browser, or explore C through an embedded online compiler—no installation
+      or local setup required.
+    </p>
+    <div class="lang-tabs" role="tablist" aria-label="Choose a language">
+      <button class="lang-tab" id="tab-python" role="tab" aria-selected="true" aria-controls="panel-python"
+        data-lang="python">🐍 main.py</button>
+      <button class="lang-tab" id="tab-c" role="tab" aria-selected="false" aria-controls="panel-c" data-lang="c">⚙️
+        main.c</button>
+    </div>
+
+    <section class="panel" id="panel-python" role="tabpanel" aria-labelledby="tab-python">
+      <div class="window-bar">
+        <span class="traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        <span class="filename">main.py</span>
+      </div>
+      <textarea id="py-code" class="editor" spellcheck="false" aria-label="Python code editor">
+print("Hello from Python!")
+for i in range(5):
+  print(f"count: {i}")
+      </textarea>
+      <div class="toolbar">
+        <button id="py-run" class="run-btn" type="button">▶ Run</button>
+        <span id="py-status" class="status">Ready</span>
+      </div>
+      <pre id="py-output" class="terminal"><span class="placeholder">Program output will appear here...</span></pre>
+    </section>
+
+    <section class="panel" id="panel-c" role="tabpanel" aria-labelledby="tab-c" hidden>
+      <div class="window-bar">
+        <span class="traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        <span class="filename">main.c</span>
+      </div>
+      <textarea id="py-code" class="editor" spellcheck="false" aria-label="Python code editor">
+print("The C compiler is not ready yet. It's the same python compiler for now")
+for i in range(5):
+  print(f"count: {i}")
+      </textarea>
+      <div class="toolbar">
+        <button id="py-run" class="run-btn" type="button">▶ Run</button>
+        <span id="py-status" class="status">Ready</span>
+      </div>
+      <pre id="py-output" class="terminal"><span class="placeholder">Program output will appear here...</span></pre>
+    </section>
+
+    <p class="caption" id="py-caption">
+      Python code runs entirely inside your browser using
+      <a href="https://pyodide.org" target="_blank" rel="noopener">Pyodide</a>,
+      which compiles Python to WebAssembly. The first run downloads the runtime
+      (cached afterward), allowing future executions to start almost instantly.
+    </p>
+
+    <footer>
+      <p>© 2026 IdkAnythin07. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.2/full/pyodide.js"></script>
+  <script>
+    (function () {
+      // ---- tab switching ----
+      var tabs = document.querySelectorAll('.lang-tab');
+      var panels = {python: document.getElementById('panel-python'), c: document.getElementById('panel-c')};
+      var pyCaption = document.getElementById('py-caption');
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) {t.setAttribute('aria-selected', 'false');});
+          tab.setAttribute('aria-selected', 'true');
+          var lang = tab.dataset.lang;
+          Object.keys(panels).forEach(function (key) {
+            panels[key].hidden = key !== lang;
+          });
+          pyCaption.style.display = lang === 'python' ? 'block' : 'none';
+        });
+      });
+
+      // ---- python runner (pyodide, fully client-side) ----
+      var runBtn = document.getElementById('py-run');
+      var codeBox = document.getElementById('py-code');
+      var output = document.getElementById('py-output');
+      var status = document.getElementById('py-status');
+      var pyodidePromise = null;
+
+      function getPyodide() {
+        if (!pyodidePromise) {
+          status.textContent = 'booting python runtime…';
+          pyodidePromise = loadPyodide();
+        }
+        return pyodidePromise;
+      }
+
+      runBtn.addEventListener('click', function () {
+        runBtn.disabled = true;
+        output.textContent = '';
+        status.textContent = 'starting…';
+        var buffer = [];
+
+        getPyodide()
+          .then(function (pyodide) {
+            status.textContent = 'running…';
+            pyodide.setStdout({batched: function (msg) {buffer.push(msg); output.textContent = buffer.join('\n');}});
+            pyodide.setStderr({batched: function (msg) {buffer.push(msg); output.textContent = buffer.join('\n');}});
+            var code = codeBox.value;
+            return pyodide.loadPackagesFromImports(code).then(function () {
+              return pyodide.runPythonAsync(code);
+            });
+          })
+          .then(function () {
+            status.textContent = 'done';
+          })
+          .catch(function (err) {
+            output.textContent += (output.textContent ? '\n' : '') + String(err);
+            status.textContent = 'error';
+          })
+          .finally(function () {
+            runBtn.disabled = false;
+          });
+      });
+    })();
+  </script>
+</body>
+
+</html>
