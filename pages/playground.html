@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../src/css/styles.css">
 </head>
 
 <body>
@@ -41,11 +41,9 @@
         <span class="traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
         <span class="filename">main.py</span>
       </div>
-      <textarea id="py-code" class="editor" spellcheck="false" aria-label="Python code editor">
-print("Hello from Python!")
-for i in range(5):
-  print(f"count: {i}")
-      </textarea>
+
+      <div id="py-editor" class="editor"></div>
+      
       <div class="toolbar">
         <button id="py-run" class="run-btn" type="button">▶ Run</button>
         <span id="py-status" class="status">Ready</span>
@@ -58,16 +56,14 @@ for i in range(5):
         <span class="traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
         <span class="filename">main.c</span>
       </div>
-      <textarea id="py-code" class="editor" spellcheck="false" aria-label="Python code editor">
-print("The C compiler is not ready yet. It's the same python compiler for now")
-for i in range(5):
-  print(f"count: {i}")
-      </textarea>
+
+      <div id="c-editor" class="editor"></div>
+
       <div class="toolbar">
-        <button id="py-run" class="run-btn" type="button">▶ Run</button>
-        <span id="py-status" class="status">Ready</span>
+        <button id="c-run" class="run-btn" type="button">▶ Run</button>
+        <span id="c-status" class="status">Ready</span>
       </div>
-      <pre id="py-output" class="terminal"><span class="placeholder">Program output will appear here...</span></pre>
+      <pre id="c-output" class="terminal"><span class="placeholder">Program output will appear here...</span></pre>
     </section>
 
     <p class="caption" id="py-caption">
@@ -77,76 +73,12 @@ for i in range(5):
       (cached afterward), allowing future executions to start almost instantly.
     </p>
 
+    <script type="module" src="../src/js/playground.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js"></script>
     <footer>
       <p>© 2026 IdkAnythin07. All rights reserved.</p>
     </footer>
   </div>
-
-  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.2/full/pyodide.js"></script>
-  <script>
-    (function () {
-      // ---- tab switching ----
-      var tabs = document.querySelectorAll('.lang-tab');
-      var panels = {python: document.getElementById('panel-python'), c: document.getElementById('panel-c')};
-      var pyCaption = document.getElementById('py-caption');
-
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          tabs.forEach(function (t) {t.setAttribute('aria-selected', 'false');});
-          tab.setAttribute('aria-selected', 'true');
-          var lang = tab.dataset.lang;
-          Object.keys(panels).forEach(function (key) {
-            panels[key].hidden = key !== lang;
-          });
-          pyCaption.style.display = lang === 'python' ? 'block' : 'none';
-        });
-      });
-
-      // ---- python runner (pyodide, fully client-side) ----
-      var runBtn = document.getElementById('py-run');
-      var codeBox = document.getElementById('py-code');
-      var output = document.getElementById('py-output');
-      var status = document.getElementById('py-status');
-      var pyodidePromise = null;
-
-      function getPyodide() {
-        if (!pyodidePromise) {
-          status.textContent = 'booting python runtime…';
-          pyodidePromise = loadPyodide();
-        }
-        return pyodidePromise;
-      }
-
-      runBtn.addEventListener('click', function () {
-        runBtn.disabled = true;
-        output.textContent = '';
-        status.textContent = 'starting…';
-        var buffer = [];
-
-        getPyodide()
-          .then(function (pyodide) {
-            status.textContent = 'running…';
-            pyodide.setStdout({batched: function (msg) {buffer.push(msg); output.textContent = buffer.join('\n');}});
-            pyodide.setStderr({batched: function (msg) {buffer.push(msg); output.textContent = buffer.join('\n');}});
-            var code = codeBox.value;
-            return pyodide.loadPackagesFromImports(code).then(function () {
-              return pyodide.runPythonAsync(code);
-            });
-          })
-          .then(function () {
-            status.textContent = 'done';
-          })
-          .catch(function (err) {
-            output.textContent += (output.textContent ? '\n' : '') + String(err);
-            status.textContent = 'error';
-          })
-          .finally(function () {
-            runBtn.disabled = false;
-          });
-      });
-    })();
-  </script>
 </body>
 
 </html>
