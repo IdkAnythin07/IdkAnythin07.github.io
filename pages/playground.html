@@ -26,9 +26,9 @@
     <p class="eyebrow">idkanythin07/playground</p>
     <h1>Code Playground</h1>
     <p class="lede">
-      Experiment with Python directly in your browser, or explore C through an embedded online compiler—no installation
-      or local setup required.
+      Experiment with Python and C directly in your browser — no installation or local setup required.
     </p>
+
     <div class="lang-tabs" role="tablist" aria-label="Choose a language">
       <button class="lang-tab" id="tab-python" role="tab" aria-selected="true" aria-controls="panel-python"
         data-lang="python">🐍 main.py</button>
@@ -36,14 +36,19 @@
         main.c</button>
     </div>
 
+    <!-- Python Panel -->
     <section class="panel" id="panel-python" role="tabpanel" aria-labelledby="tab-python">
-      <div class="window-bar">
-        <span class="traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+<div class="window-bar">
+        <span class="traffic">
+          <span class="dot r"></span>
+          <span class="dot y"></span>
+          <span class="dot g"></span>
+        </span>
         <span class="filename">main.py</span>
       </div>
 
       <div id="py-editor" class="editor"></div>
-      
+
       <div class="toolbar">
         <button id="py-run" class="run-btn" type="button">▶ Run</button>
         <span id="py-status" class="status">Ready</span>
@@ -51,14 +56,19 @@
       <pre id="py-output" class="terminal"><span class="placeholder">Program output will appear here...</span></pre>
     </section>
 
+    <!-- C Panel -->
     <section class="panel" id="panel-c" role="tabpanel" aria-labelledby="tab-c" hidden>
       <div class="window-bar">
-        <span class="traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        <span class="traffic">
+          <span class="dot r"></span>
+          <span class="dot y"></span>
+          <span class="dot g"></span>
+        </span>
         <span class="filename">main.c</span>
       </div>
 
       <div id="c-editor" class="editor"></div>
-
+      
       <div class="toolbar">
         <button id="c-run" class="run-btn" type="button">▶ Run</button>
         <span id="c-status" class="status">Ready</span>
@@ -70,15 +80,20 @@
       Python code runs entirely inside your browser using
       <a href="https://pyodide.org" target="_blank" rel="noopener">Pyodide</a>,
       which compiles Python to WebAssembly. The first run downloads the runtime
-      (cached afterward), allowing future executions to start almost instantly.
+      (cached afterward), so future executions start almost instantly.
     </p>
 
-    <script type="module" src="../src/js/playground.js"></script>
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js"></script>
     <footer>
       <p>© 2026 IdkAnythin07. All rights reserved.</p>
     </footer>
   </div>
+
+  <!-- Pyodide runtime -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js"></script>
+  <!-- JDoodle embed loader -->
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <!-- Playground logic (Monaco editors + tab switching + Python runner) -->
+  <script type="module" src="../src/js/playground.js"></script>
 </body>
 
 </html>

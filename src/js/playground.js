@@ -1,4 +1,10 @@
-import {createPythonEditor} from "./editor.js";
+import {
+  createPythonEditor,
+  createCEditor
+} from "./editor.js";
+
+import "../css/styles.css";
+
 import {runPython} from "./pyodide.js";
 
 const tabs = document.querySelectorAll(".lang-tab");
@@ -29,7 +35,12 @@ tabs.forEach(tab => {
     });
 });
 
-const pyEditor = createPythonEditor(document.getElementById("py-editor"));
+const pyEditor = createPythonEditor(
+  document.getElementById("py-editor")
+);
+const cEditor = createCEditor(
+  document.getElementById("c-editor")
+);
 
 const output = document.getElementById("py-output");
 const status = document.getElementById("py-status");
@@ -46,4 +57,14 @@ document.getElementById("py-run").onclick = async () => {
         status.textContent = "Error";
         console.error(err);
     }
+};
+
+document.getElementById("c-run").onclick = () => {
+  const output = document.getElementById("c-output");
+  output.textContent =
+`C execution isn't available yet.
+
+A browser-based LLVM/WASI compiler is currently being integrated.
+
+Coming soon!`;
 };
