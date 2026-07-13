@@ -1,7 +1,7 @@
 {
   "name": "idkanythin07.github.io",
   "version": "1.0.0",
-  "description": "",
+  "description": "Personal Portfolio and Playground",
   "main": "scripts.js",
   "scripts": {
     "dev": "vite",
@@ -13,19 +13,25 @@
     "type": "git",
     "url": "git+https://github.com/Idkanythin07/IdkAnythin07.github.io.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "portfolio",
+    "terminal",
+    "web"
+  ],
+  "author": "IdkAnythin07",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Idkanythin07/IdkAnythin07.github.io/issues"
   },
   "homepage": "https://github.com/Idkanythin07/IdkAnythin07.github.io#readme",
   "devDependencies": {
     "gh-pages": "^6.3.0",
-    "vite": "^8.1.3"
+    "vite": "^8.1.4"
   },
   "dependencies": {
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
     "monaco-editor": "^0.53.0",
     "pyodide": "^314.0.2"
   }
