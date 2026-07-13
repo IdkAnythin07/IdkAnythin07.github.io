@@ -10,6 +10,8 @@ export default defineConfig({
     },
   },
   build: {
+    // Bump the limit specifically to accommodate Monaco's massive engine
+    chunkSizeWarningLimit: 4000, 
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
@@ -18,6 +20,22 @@ export default defineConfig({
         secret: resolve(__dirname, "pages/secret.html"),
         piracy: resolve(__dirname, "pages/piracy.html"),
       },
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // Quarantine Monaco into its own isolated file
+            if (id.includes('monaco-editor')) {
+              return 'vendor-monaco';
+            }
+            // Isolate the terminal 
+            if (id.includes('@xterm')) {
+              return 'vendor-xterm'; 
+            }
+            // Group everything else
+            return 'vendor-core'; 
+          }
+        }
+      }
     },
   },
 });
