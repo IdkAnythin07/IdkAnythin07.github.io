@@ -27,11 +27,32 @@ monaco.editor.defineTheme("catppuccin", {
     }
 });
 
+monaco.editor.defineTheme("catppuccin-latte", {
+    base: "vs",
+    inherit: true,
+    rules: [],
+    colors: {
+        "editor.background": "#eff1f5",
+        "editor.foreground": "#4c4f69",
+        "editorCursor.foreground": "#dc8a78",
+        "editor.selectionBackground": "#acb0be66",
+        "editorLineNumber.foreground": "#bcc0cc",
+        "editor.lineHighlightBackground": "#e6e9ef"
+    }
+});
+
+const currentTheme = localStorage.getItem('theme') === 'light' ? 'catppuccin-latte' : 'catppuccin';
+
+window.addEventListener('themeChanged', (e) => {
+    const isLight = e.detail === 'light';
+    monaco.editor.setTheme(isLight ? 'catppuccin-latte' : 'catppuccin');
+});
+
 export function createPythonEditor(container) {
     return monaco.editor.create(container, {
         value: `print("Hello World")`,
         language: "python",
-        theme: "catppuccin",
+        theme: currentTheme,
         automaticLayout: true
     });
 }
@@ -45,7 +66,7 @@ int main() {
     return 0;
 }`,
         language: "c",
-        theme: "catppuccin",
+        theme: currentTheme,
         automaticLayout: true
     });
 }

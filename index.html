@@ -16,12 +16,7 @@
 
 <body>
   <div class="page-wrap">
-    <nav class="site-nav">
-      <a href="index.html" class="current" aria-current="page">home</a>
-      <a href="index.html#about">about</a>
-      <a href="pages/playground.html">playground</a>
-      <a href="pages/contact.html">contact</a>
-    </nav>
+    <div id="main-nav"></div>
 
     <p class="eyebrow">idkanythin07/home</p>
     <h1>About Me</h1>
@@ -73,11 +68,13 @@
       </section>
     </main>
 
-    <footer>
-      <p>&copy; 2026 IdkAnythin07. All rights reserved.</p>
-      <a href="pages/secret.html" class="secret-button">secret</a>
-    </footer>
+    <div id="main-footer"></div>
   </div>
+  <script type="module">
+    import { injectLayout } from './src/js/layout.js';
+    injectLayout();
+  </script>
+
 </body>
 
 </html>

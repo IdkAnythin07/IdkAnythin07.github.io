@@ -1,0 +1,35 @@
+/* Catppuccin Macchiato Theme Variables (Dark Mode Default) */
+:root {
+  --base: #1e1e2e;
+  --crust: #11111b;
+  --mantle: #181825;
+  --surface0: #313244;
+  --surface1: #45475a;
+  --text: #cdd6f4;
+  --subtext: #a6adc8;
+  --green: #a6e3a1;
+  --red: #f38ba8;
+  --mauve: #cba6f7;
+  --mauve-hover: #b48ead;
+  --peach: #fab387;
+  --glass-bg: rgba(24, 24, 37, 0.7);
+  --glass-border: rgba(205, 214, 244, 0.1);
+}
+
+/* Catppuccin Latte Theme Variables (Light Mode) */
+[data-theme="light"] {
+  --base: #eff1f5;
+  --crust: #dce0e8;
+  --mantle: #e6e9ef;
+  --surface0: #ccd0da;
+  --surface1: #bcc0cc;
+  --text: #4c4f69;
+  --subtext: #6c6f85;
+  --green: #40a02b;
+  --red: #d20f39;
+  --mauve: #8839ef;
+  --mauve-hover: #7209b7;
+  --peach: #fe640b;
+  --glass-bg: rgba(230, 233, 239, 0.7);
+  --glass-border: rgba(76, 79, 105, 0.1);
+}

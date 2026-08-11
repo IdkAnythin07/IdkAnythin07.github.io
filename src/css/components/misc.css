@@ -1,0 +1,168 @@
+/* User Profile Elements */
+.intro {
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--mauve);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(203, 166, 247, 0.2);
+}
+
+.bio {
+  font-size: 1.1rem;
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.highlight {
+  color: var(--mauve);
+  font-weight: bold;
+}
+
+/* Links Section */
+.links {
+  text-align: center;
+}
+
+.links h2 {
+  color: var(--mauve);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.links ul li {
+  margin: 10px 0;
+}
+
+.links ul li a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.links ul li a:hover {
+  color: var(--mauve);
+  transform: translateX(4px);
+}
+
+/* Forms & Inputs */
+.contact-form, #password-form, .website-list {
+  background: var(--mantle);
+  border: 1px solid var(--surface0);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+  transition: box-shadow 0.3s ease;
+}
+
+.contact-form:hover, #password-form:hover, .website-list:hover {
+  box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
+}
+
+.contact-form form {
+  padding: 24px;
+}
+
+.contact-form label,
+#password-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+}
+
+.contact-form input,
+.contact-form textarea,
+#password-form input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--crust);
+  border: 1px solid var(--surface0);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+  transition: all .2s ease;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--subtext);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+#password-form input[type="password"]:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(166, 227, 161, .25);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 180px;
+}
+
+/* Password Form specific */
+#password-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#password-form .form-group {
+  margin-bottom: 20px;
+}
+
+/* Website List specific */
+.website-list {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.website-list h2 {
+  color: var(--mauve);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.website-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.website-list ul li {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.website-list ul li a {
+  color: var(--mauve);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.website-list ul li a:hover {
+  color: var(--mauve-hover);
+}

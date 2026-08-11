@@ -1,0 +1,86 @@
+/* Navigation Bar - Glassmorphism style */
+#main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 48px;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+  pointer-events: none; /* Let clicks pass through empty space */
+}
+
+#main-nav > * {
+  pointer-events: auto; /* Re-enable clicks on children */
+}
+
+nav.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px 24px;
+  border-radius: 99px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: max-content;
+  max-width: calc(100% - 60px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav.site-nav:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+nav.site-nav a {
+  color: var(--subtext);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+}
+
+nav.site-nav a:hover,
+nav.site-nav a:focus-visible {
+  color: var(--text);
+  background: rgba(205, 214, 244, 0.1);
+  transform: scale(1.05);
+}
+
+nav.site-nav a.current {
+  color: var(--crust);
+  background: var(--mauve);
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(203, 166, 247, 0.4);
+}
+
+/* Theme Toggle Button */
+.theme-btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  color: var(--text);
+  font-size: 1.2rem;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+}
+
+.theme-btn:hover {
+  transform: scale(1.15) rotate(15deg);
+  background: var(--surface0);
+}
+

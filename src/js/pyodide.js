@@ -2,6 +2,7 @@ let worker = null;
 let inputState = null;
 let inputBuffer = null;
 let currentReject = null;
+let fileCache = {};
 
 export function initPyodide() {
     if (!worker) {
@@ -10,6 +11,17 @@ export function initPyodide() {
 
         worker = new Worker(new URL('./py-worker.js', import.meta.url));
         worker.postMessage({ type: 'init', buffer: inputBuffer });
+        
+        for (const [filename, data] of Object.entries(fileCache)) {
+            worker.postMessage({ type: 'write_file', filename, data });
+        }
+    }
+}
+
+export function uploadFileToWorker(filename, arrayBuffer) {
+    fileCache[filename] = arrayBuffer;
+    if (worker) {
+        worker.postMessage({ type: 'write_file', filename, data: arrayBuffer });
     }
 }
 

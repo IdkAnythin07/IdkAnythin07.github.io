@@ -16,6 +16,7 @@
 
 <body>
   <div class="container">
+    <div id="main-nav"></div>
     <header>
       <h1>Welcome to the Protected Page!</h1>
     </header>
@@ -30,12 +31,15 @@
         <a href="../index.html" class="run-btn" style="text-decoration: none;">← Go Back</a>
       </div>
     </main>
-    <footer>
-      <p>&copy; 2026 IdkAnythin07. All rights reserved.</p>
-    </footer>
+    <div id="main-footer"></div>
   </div>
   
-  <script src="../src/js/scripts.js"></script>
+  <script type="module">
+    import { injectLayout } from '../src/js/layout.js';
+    injectLayout();
+  </script>
+  
+  <script type="module" src="../src/js/piracy.js"></script>
 </body>
 
 </html>

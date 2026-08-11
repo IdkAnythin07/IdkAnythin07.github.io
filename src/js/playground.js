@@ -1,102 +1,19 @@
-import { createPythonEditor, createCEditor } from "./editor.js";
 import "../css/styles.css";
-import { initPyodide, runPython, killWorker } from "./pyodide.js";
-import { Terminal } from "@xterm/xterm";
-import { FitAddon } from "@xterm/addon-fit";
-import "@xterm/xterm/css/xterm.css";
+import { initPyodide, runPython, killWorker, uploadFileToWorker } from "./pyodide.js";
+import { createTerminal, setupPythonTerminal } from "./terminal.js";
 
 // Warm up the worker immediately on page load
 initPyodide();
 
-const pyEditor = createPythonEditor(document.getElementById("py-editor"));
-const cEditor = createCEditor(document.getElementById("c-editor"));
-
-const terminalConfig = {
-    cursorBlink: true,
-    theme: {
-        background: '#11111b',
-        foreground: '#cdd6f4',
-        cursor: '#cba6f7',
-    },
-    fontSize: 13,
-    lineHeight: 1.6,
-    cols: 80,
-    rows: 12
-};
-
-const pyTerminal = new Terminal(terminalConfig);
-const cTerminal = new Terminal(terminalConfig);
+let pyEditor, cEditor;
 
 const pyTerminalContainer = document.getElementById("py-output");
 const cTerminalContainer = document.getElementById("c-output");
 
-pyTerminal.open(pyTerminalContainer);
-cTerminal.open(cTerminalContainer);
+const { terminal: pyTerminal, fitAddon: pyFitAddon } = createTerminal(pyTerminalContainer);
+const { terminal: cTerminal, fitAddon: cFitAddon } = createTerminal(cTerminalContainer);
 
-const pyFitAddon = new FitAddon();
-const cFitAddon = new FitAddon();
-
-pyTerminal.loadAddon(pyFitAddon);
-cTerminal.loadAddon(cFitAddon);
-
-pyFitAddon.fit();
-cFitAddon.fit();
-
-let waitingForInput = null;
-let inputBuffer = "";
-
-pyTerminal.onData((data) => {
-    if (!waitingForInput) return;
-
-    if (data.includes('\r') || data.includes('\n')) {
-        pyTerminal.write('\r\n');
-        const line = inputBuffer + '\n';
-        inputBuffer = "";
-        const resolve = waitingForInput;
-        waitingForInput = null;
-        resolve(line);
-        return;
-    }
-
-    if (data === '\u007F' || data === '\b') {
-        if (inputBuffer.length > 0) {
-            inputBuffer = inputBuffer.slice(0, -1);
-            pyTerminal.write('\b \b');
-        }
-        return;
-    }
-
-    if (data === '\u0003') {
-        inputBuffer = "";
-        const res = waitingForInput;
-        waitingForInput = null;
-        pyTerminal.write('^C\r\n');
-        res('\u0003');
-        return;
-    }
-
-    for (let i = 0; i < data.length; i++) {
-        const char = data[i];
-        if (char >= String.fromCharCode(32) && char <= String.fromCharCode(126)) {
-            pyTerminal.write(char);
-            inputBuffer += char;
-        }
-    }
-});
-
-globalThis.readLine = () => {
-    return new Promise((resolve) => {
-        inputBuffer = "";  
-        waitingForInput = resolve;  
-        
-        pyTerminalContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        requestAnimationFrame(() => {
-            pyTerminal.focus();
-            pyTerminalContainer.querySelector('.xterm-screen')?.focus();
-        });
-    });
-};
+const pyInputManager = setupPythonTerminal(pyTerminal, pyTerminalContainer);
 
 const tabs = document.querySelectorAll(".lang-tab");
 const panels = {
@@ -105,6 +22,44 @@ const panels = {
 };
 const pyCaption = document.getElementById("py-caption");
 const status = document.getElementById("py-status");
+const pyRunBtn = document.getElementById("py-run");
+const pyStopBtn = document.getElementById("py-stop");
+const pyUploadBtn = document.getElementById("py-upload-btn");
+const pyFileUpload = document.getElementById("py-file-upload");
+const pyFilesStatus = document.getElementById("py-files-status");
+
+pyRunBtn.disabled = true; // Disable until editor is loaded
+
+pyUploadBtn.onclick = () => pyFileUpload.click();
+
+let uploadedFileNames = [];
+pyFileUpload.addEventListener("change", async (e) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    for (const file of files) {
+        const arrayBuffer = await file.arrayBuffer();
+        uploadFileToWorker(file.name, arrayBuffer);
+        if (!uploadedFileNames.includes(file.name)) {
+            uploadedFileNames.push(file.name);
+        }
+    }
+    
+    pyFilesStatus.textContent = `${uploadedFileNames.length} file(s) loaded`;
+    
+    // Reset input so the same file can be uploaded again if needed
+    pyFileUpload.value = "";
+});
+
+// Lazy load the editor
+import("./editor.js").then(({ createPythonEditor, createCEditor }) => {
+    pyEditor = createPythonEditor(document.getElementById("py-editor"));
+    cEditor = createCEditor(document.getElementById("c-editor"));
+    pyRunBtn.disabled = false;
+}).catch(err => {
+    console.error("Failed to load Monaco editor:", err);
+    status.textContent = "Editor Failed to Load";
+});
 
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
@@ -120,24 +75,21 @@ tabs.forEach(tab => {
 
         requestAnimationFrame(() => {
             if (lang === "python") {
-                pyEditor.layout();
+                if (pyEditor) pyEditor.layout();
                 pyFitAddon.fit();
             } else {
-                cEditor.layout();
+                if (cEditor) cEditor.layout();
                 cFitAddon.fit();
             }
         });
     });
 });
 
-const pyRunBtn = document.getElementById("py-run");
-const pyStopBtn = document.getElementById("py-stop");
-
 pyRunBtn.onclick = async () => {
+    if (!pyEditor) return;
     const code = pyEditor.getValue();
     pyTerminal.clear();
-    waitingForInput = null;
-    inputBuffer = "";
+    pyInputManager.clearInput();
 
     // Toggle UI state to running
     pyRunBtn.disabled = true;
@@ -150,8 +102,7 @@ pyRunBtn.onclick = async () => {
         status.textContent = "Error / Terminated";
         console.error(err);
     } finally {
-        waitingForInput = null;
-        inputBuffer = "";
+        pyInputManager.clearInput();
         
         // Restore UI state
         pyRunBtn.disabled = false;
@@ -160,17 +111,31 @@ pyRunBtn.onclick = async () => {
 };
 
 pyStopBtn.onclick = () => {
+    pyStopBtn.disabled = true;
     killWorker();
-    
-    // Break the terminal input wait if it was paused on input()
-    if (waitingForInput) {
-        const res = waitingForInput;
-        waitingForInput = null;
-        res('\u0003'); // Send a break signal
-    }
+    pyInputManager.breakInput();
 };
 
 document.getElementById("c-run").onclick = () => {
     cTerminal.clear();
     cTerminal.write(`\r\nC execution isn't available yet.\r\n\r\nA browser-based LLVM/WASI compiler is currently being integrated.\r\n\r\nComing soon!\r\n`);
 };
+
+// Handle Window Resizing for Editors and Terminals
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        const activeTab = document.querySelector('.lang-tab[aria-selected="true"]');
+        if (!activeTab) return;
+        
+        const lang = activeTab.dataset.lang;
+        if (lang === "python") {
+            if (pyEditor) pyEditor.layout();
+            pyFitAddon.fit();
+        } else {
+            if (cEditor) cEditor.layout();
+            cFitAddon.fit();
+        }
+    }, 100);
+});

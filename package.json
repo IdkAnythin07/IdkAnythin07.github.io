@@ -2,7 +2,7 @@
   "name": "idkanythin07.github.io",
   "version": "1.0.0",
   "description": "Personal Portfolio and Playground",
-  "main": "scripts.js",
+  "main": "src/js/piracy.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

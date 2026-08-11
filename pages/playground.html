@@ -17,12 +17,7 @@
 <body>
   <div class="page-wrap">
 
-    <nav class="site-nav">
-      <a href="../index.html">home</a>
-      <a href="../index.html#about">about</a>
-      <a href="playground.html" class="current" aria-current="page">playground</a>
-      <a href="contact.html">contact</a>
-    </nav>
+    <div id="main-nav"></div>
 
     <p class="eyebrow">idkanythin07/playground</p>
     <h1>Code Playground</h1>
@@ -51,8 +46,13 @@
         <div class="btn-group">
             <button id="py-run" class="run-btn" type="button">▶ Run</button>
             <button id="py-stop" class="stop-btn" type="button" disabled>⏹ Stop</button>
+            <button id="py-upload-btn" class="run-btn" type="button" style="margin-left: 8px;">📁 Upload</button>
+            <input type="file" id="py-file-upload" multiple style="display: none;">
         </div>
-        <span id="py-status" class="status">Ready</span>
+        <div>
+          <span id="py-files-status" class="status" style="margin-right: 12px; color: var(--subtext);"></span>
+          <span id="py-status" class="status">Ready</span>
+        </div>
       </div>
       <div id="py-output" class="terminal"></div>
     </section>
@@ -83,11 +83,14 @@
       (cached afterward), so future executions start almost instantly.
     </p>
 
-    <footer>
-      <p>© 2026 IdkAnythin07. All rights reserved.</p>
-    </footer>
+    <div id="main-footer"></div>
   </div>
   
+  <script type="module">
+    import { injectLayout } from '../src/js/layout.js';
+    injectLayout();
+  </script>
+
   <script type="module" src="../src/js/playground.js"></script>
 </body>
 </html>

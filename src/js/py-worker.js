@@ -1,4 +1,4 @@
-importScripts("https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js");
+importScripts("/pyodide/pyodide.js");
 
 let pyodidePromise = null;
 let inputState = null;
@@ -13,7 +13,7 @@ self.onmessage = async (e) => {
         inputState = new Int32Array(inputBuffer, 0, 2);
 
         pyodidePromise = loadPyodide({
-            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/"
+            indexURL: "/pyodide/"
         }).then(async pyodide => {
             
             // A. JavaScript-to-Terminal Writers (Real-time, Unbuffered)
@@ -94,6 +94,18 @@ sys.stdin = SyncInputStream(sys.stdin)
             postMessage({ type: 'done' });
         } catch (err) {
             postMessage({ type: 'error', msg: String(err) });
+        }
+    }
+
+    // 3. FILE SYSTEM ACCESS
+    if (type === 'write_file') {
+        const pyodide = await pyodidePromise;
+        const { filename, data } = e.data;
+        try {
+            pyodide.FS.writeFile(filename, new Uint8Array(data));
+            postMessage({ type: 'file_written', filename });
+        } catch (err) {
+            console.error("Failed to write file to Pyodide FS:", err);
         }
     }
 };
