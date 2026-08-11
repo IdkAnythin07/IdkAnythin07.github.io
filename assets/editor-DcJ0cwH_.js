@@ -1,0 +1,6 @@
+import{n as e,t}from"./vendor-monaco-B42qTRxX.js";self.MonacoEnvironment={getWorker(e,n){return new t}},e.defineTheme(`catppuccin`,{base:`vs-dark`,inherit:!0,rules:[],colors:{"editor.background":`#181825`,"editor.foreground":`#CDD6F4`,"editorCursor.foreground":`#F5E0DC`,"editor.selectionBackground":`#585B7066`,"editorLineNumber.foreground":`#6C7086`,"editor.lineHighlightBackground":`#313244`}}),e.defineTheme(`catppuccin-latte`,{base:`vs`,inherit:!0,rules:[],colors:{"editor.background":`#eff1f5`,"editor.foreground":`#4c4f69`,"editorCursor.foreground":`#dc8a78`,"editor.selectionBackground":`#acb0be66`,"editorLineNumber.foreground":`#bcc0cc`,"editor.lineHighlightBackground":`#e6e9ef`}});var n=localStorage.getItem(`theme`)===`light`?`catppuccin-latte`:`catppuccin`;window.addEventListener(`themeChanged`,t=>{let n=t.detail===`light`;e.setTheme(n?`catppuccin-latte`:`catppuccin`)});function r(t){return e.create(t,{value:`print("Hello World")`,language:`python`,theme:n,automaticLayout:!0})}function i(t){return e.create(t,{value:`#include <stdio.h>
+
+int main() {
+    printf("Hello World!");
+    return 0;
+}`,language:`c`,theme:n,automaticLayout:!0})}export{i as createCEditor,r as createPythonEditor};
