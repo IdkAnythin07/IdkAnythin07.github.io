@@ -7,27 +7,27 @@ export default function Piracy() {
   }, []);
 
   return (
-    <>
-      <p className="eyebrow">idkanythin07/piracy</p>
-      <h1>Anti-Piracy Screen</h1>
+    <div className="animate-fade-in text-center max-w-2xl mx-auto">
+      <p className="text-subtext font-mono text-sm mb-2 text-left">idkanythin07/piracy</p>
+      <h1 className="text-4xl md:text-5xl font-bold mb-6 text-red-main text-left">Anti-Piracy Screen</h1>
 
-      <main>
-        <p className="lede">
+      <main className="space-y-8 mt-12">
+        <p className="text-xl text-subtext leading-relaxed">
           Please do not pirate software. It is illegal and harms developers.
         </p>
 
-        <section className="piracy-container" style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <div id="piracy-warning" style={{ color: 'red', fontWeight: 'bold', fontSize: '1.2rem', padding: '1rem', border: '2px dashed red' }}>
+        <section className="bg-crust p-8 border border-surface1 rounded-xl shadow-2xl">
+          <div id="piracy-warning" className="text-red-main font-bold text-xl p-4 border-2 border-dashed border-red-main animate-pulse">
             WARNING: PIRATED COPY DETECTED
           </div>
-          <p style={{ marginTop: '1rem' }}>
+          <p className="mt-6 text-subtext font-mono">
             System lock initiated. Please contact the administrator.
           </p>
-          <div id="piracy-glitch" style={{ display: 'none', position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'black', color: 'lime', zIndex: 9999, padding: '2rem', fontFamily: 'monospace' }}>
+          <div id="piracy-glitch" className="hidden fixed inset-0 bg-black text-green-500 z-[9999] p-8 font-mono text-2xl flex items-center justify-center">
             SYSTEM FAILURE. PLEASE REBOOT.
           </div>
         </section>
       </main>
-    </>
+    </div>
   );
 }

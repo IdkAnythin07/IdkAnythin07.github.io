@@ -170,72 +170,84 @@ export default function Playground() {
   };
 
   return (
-    <>
-      <p className="eyebrow">idkanythin07/playground</p>
-      <h1>Code Playground</h1>
-      <p className="lede">
+    <div className="animate-fade-in">
+      <p className="text-subtext font-mono text-sm mb-2">idkanythin07/playground</p>
+      <h1 className="text-4xl md:text-5xl font-bold mb-6 text-mauve">Code Playground</h1>
+      <p className="text-xl text-subtext leading-relaxed mb-10">
         Experiment with Python and C directly in your browser — no installation or local setup required.
       </p>
 
-      <div className="lang-tabs" role="tablist" aria-label="Choose a language">
-        <button className="lang-tab" role="tab" aria-selected={activeTab === 'python'} onClick={() => setActiveTab('python')}>🐍 main.py</button>
-        <button className="lang-tab" role="tab" aria-selected={activeTab === 'c'} onClick={() => setActiveTab('c')}>⚙️ main.c</button>
+      <div className="flex border-b border-surface1 mb-6" role="tablist" aria-label="Choose a language">
+        <button 
+          className={`px-6 py-3 font-mono text-sm border-b-2 transition-colors ${activeTab === 'python' ? 'border-mauve text-mauve bg-surface0' : 'border-transparent text-subtext hover:bg-surface0/50'}`}
+          role="tab" 
+          aria-selected={activeTab === 'python'} 
+          onClick={() => setActiveTab('python')}
+        >🐍 main.py</button>
+        <button 
+          className={`px-6 py-3 font-mono text-sm border-b-2 transition-colors ${activeTab === 'c' ? 'border-mauve text-mauve bg-surface0' : 'border-transparent text-subtext hover:bg-surface0/50'}`}
+          role="tab" 
+          aria-selected={activeTab === 'c'} 
+          onClick={() => setActiveTab('c')}
+        >⚙️ main.c</button>
       </div>
 
-      <section className="panel" role="tabpanel" hidden={activeTab !== 'python'}>
-        <div className="window-bar">
-          <span className="traffic">
-            <span className="dot r"></span>
-            <span className="dot y"></span>
-            <span className="dot g"></span>
+      <section className="bg-surface0 rounded-xl overflow-hidden border border-surface1 shadow-xl flex flex-col" role="tabpanel" hidden={activeTab !== 'python'}>
+        <div className="bg-mantle px-4 py-3 flex items-center border-b border-surface1">
+          <span className="flex space-x-2">
+            <span className="w-3 h-3 rounded-full bg-red-main"></span>
+            <span className="w-3 h-3 rounded-full bg-peach"></span>
+            <span className="w-3 h-3 rounded-full bg-green-main"></span>
           </span>
-          <span className="filename">main.py</span>
+          <span className="mx-auto text-sm font-mono text-subtext">main.py</span>
+          <span className="w-12"></span>
         </div>
 
-        <div ref={pyEditorRef} className="editor" style={{ height: '300px' }}></div>
+        <div ref={pyEditorRef} className="w-full" style={{ height: '300px' }}></div>
 
-        <div className="toolbar">
-          <div className="btn-group">
-              <button className="run-btn" type="button" disabled={!editorLoaded || isRunning} onClick={handlePyRun}>▶ Run</button>
-              <button className="stop-btn" type="button" disabled={!isRunning} onClick={handlePyStop}>⏹ Stop</button>
-              <button className="run-btn" type="button" style={{ marginLeft: '8px' }} onClick={() => pyFileUploadRef.current?.click()}>📁 Upload</button>
+        <div className="bg-crust border-y border-surface1 px-4 py-3 flex justify-between items-center text-sm font-mono text-subtext">
+          <div className="flex space-x-2">
+              <button className="bg-surface1 hover:bg-surface0 text-text-main px-3 py-1.5 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed" type="button" disabled={!editorLoaded || isRunning} onClick={handlePyRun}>▶ Run</button>
+              <button className="bg-surface1 hover:bg-surface0 text-red-main px-3 py-1.5 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed" type="button" disabled={!isRunning} onClick={handlePyStop}>⏹ Stop</button>
+              <button className="bg-surface1 hover:bg-surface0 text-text-main px-3 py-1.5 rounded transition-colors" type="button" onClick={() => pyFileUploadRef.current?.click()}>📁 Upload</button>
               <input type="file" ref={pyFileUploadRef} multiple style={{ display: 'none' }} onChange={handleFileUploadChange} />
           </div>
-          <div>
-            <span className="status" style={{ marginRight: '12px', color: 'var(--subtext)' }}>{pyFilesStatus}</span>
-            <span className="status">{typeof pyStatus === 'string' ? pyStatus : pyStatus?.textContent || 'Ready'}</span>
+          <div className="flex items-center space-x-4">
+            <span className="text-subtext/70">{pyFilesStatus}</span>
+            <span className={pyStatus === 'Running...' ? 'text-green-main animate-pulse' : (pyStatus === 'Error / Terminated' ? 'text-red-main' : 'text-text-main')}>{typeof pyStatus === 'string' ? pyStatus : pyStatus?.textContent || 'Ready'}</span>
           </div>
         </div>
-        <div ref={pyTerminalRef} className="terminal" style={{ height: '200px' }}></div>
+        <div ref={pyTerminalRef} className="w-full bg-crust" style={{ height: '200px' }}></div>
       </section>
 
-      <section className="panel" role="tabpanel" hidden={activeTab !== 'c'}>
-        <div className="window-bar">
-          <span className="traffic">
-            <span className="dot r"></span>
-            <span className="dot y"></span>
-            <span className="dot g"></span>
+      <section className="bg-surface0 rounded-xl overflow-hidden border border-surface1 shadow-xl flex flex-col" role="tabpanel" hidden={activeTab !== 'c'}>
+        <div className="bg-mantle px-4 py-3 flex items-center border-b border-surface1">
+          <span className="flex space-x-2">
+            <span className="w-3 h-3 rounded-full bg-red-main"></span>
+            <span className="w-3 h-3 rounded-full bg-peach"></span>
+            <span className="w-3 h-3 rounded-full bg-green-main"></span>
           </span>
-          <span className="filename">main.c</span>
+          <span className="mx-auto text-sm font-mono text-subtext">main.c</span>
+          <span className="w-12"></span>
         </div>
 
-        <div ref={cEditorRef} className="editor" style={{ height: '300px' }}></div>
+        <div ref={cEditorRef} className="w-full" style={{ height: '300px' }}></div>
         
-        <div className="toolbar">
-          <button className="run-btn" type="button" disabled={!editorLoaded} onClick={handleCRun}>▶ Run</button>
-          <span className="status">{cStatus}</span>
+        <div className="bg-crust border-y border-surface1 px-4 py-3 flex justify-between items-center text-sm font-mono text-subtext">
+          <button className="bg-surface1 hover:bg-surface0 text-text-main px-3 py-1.5 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed" type="button" disabled={!editorLoaded} onClick={handleCRun}>▶ Run</button>
+          <span className="text-text-main">{cStatus}</span>
         </div>
-        <div ref={cTerminalRef} className="terminal" style={{ height: '200px' }}></div>
+        <div ref={cTerminalRef} className="w-full bg-crust" style={{ height: '200px' }}></div>
       </section>
 
       {activeTab === 'python' && (
-        <p className="caption">
+        <p className="mt-6 text-sm text-subtext text-center italic">
           Python code runs entirely inside your browser using
-          <a href="https://pyodide.org" target="_blank" rel="noreferrer"> Pyodide</a>,
+          <a href="https://pyodide.org" target="_blank" rel="noreferrer" className="text-mauve hover:underline not-italic font-medium ml-1">Pyodide</a>,
           which compiles Python to WebAssembly. The first run downloads the runtime
           (cached afterward), so future executions start almost instantly.
         </p>
       )}
-    </>
+    </div>
   );
 }

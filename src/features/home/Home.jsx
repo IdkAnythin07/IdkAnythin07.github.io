@@ -1,17 +1,22 @@
 export default function Home() {
   return (
-    <>
-      <p className="eyebrow">idkanythin07/home</p>
-      <h1>About Me</h1>
+    <div className="animate-fade-in">
+      <p className="text-subtext font-mono text-sm mb-2">idkanythin07/home</p>
+      <h1 className="text-4xl md:text-5xl font-bold mb-10 text-mauve">About Me</h1>
 
-      <main>
-        <section id="about" className="intro">
-          <img src="/profile.jpg" alt="IdkAnythin07" className="profile-pic" loading="lazy" />
+      <main className="space-y-12">
+        <section id="about" className="space-y-6">
+          <img 
+            src="/profile.jpg" 
+            alt="IdkAnythin07" 
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-surface1 shadow-lg float-right ml-6 mb-4 object-cover"
+            loading="lazy" 
+          />
 
-          <p className="bio">
-            Hi, I'm <span className="highlight">IdkAnythin07</span>, a
-            <span className="highlight"> B.Tech </span> Computer Science and Engineering student at
-            <span className="highlight"> TIEM Banipur</span>, specializing in Artificial Intelligence and
+          <p className="text-lg leading-relaxed text-subtext">
+            Hi, I'm <span className="text-text-main font-semibold">IdkAnythin07</span>, a
+            <span className="text-text-main font-semibold"> B.Tech </span> Computer Science and Engineering student at
+            <span className="text-text-main font-semibold"> TIEM Banipur</span>, specializing in Artificial Intelligence and
             Machine Learning. I have a deep passion for technology, creativity, and the endless process
             of exploring new ideas. Whether I'm writing code, experimenting with custom Android ROMs, or
             fine-tuning a Linux setup to work exactly the way I want, I genuinely enjoy understanding how
@@ -20,7 +25,7 @@ export default function Home() {
             engage with the world.
           </p>
 
-          <p className="bio">
+          <p className="text-lg leading-relaxed text-subtext">
             Outside of programming, I'm a huge fan of anime, gacha games, and rhythm games. Music plays
             a central role in my life, and I'm always on the hunt for new tracks, artists, and
             genres to add to my ever-growing playlist. I also enjoy creative audio work, including
@@ -29,21 +34,18 @@ export default function Home() {
             completely new direction. It's difficult, but that's exactly what makes it rewarding.
           </p>
 
-          <section className="skills">
-            <h2>Technologies I Use</h2>
-            <div className="tech-grid">
-              <div className="tech-item">Python</div>
-              <div className="tech-item">C / C++</div>
-              <div className="tech-item">TensorFlow</div>
-              <div className="tech-item">PyTorch</div>
-              <div className="tech-item">JavaScript</div>
-              <div className="tech-item">Linux / Bash</div>
-              <div className="tech-item">Git</div>
-              <div className="tech-item">Docker</div>
+          <section className="py-8 clear-both">
+            <h2 className="text-2xl font-bold mb-6 text-text-main border-b border-surface1 pb-2">Technologies I Use</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {['Python', 'C / C++', 'TensorFlow', 'PyTorch', 'JavaScript', 'Linux / Bash', 'Git', 'Docker'].map(tech => (
+                <div key={tech} className="bg-surface0 text-text-main py-3 px-4 rounded-lg text-center font-medium shadow-sm border border-surface1 hover:border-mauve transition-colors">
+                  {tech}
+                </div>
+              ))}
             </div>
           </section>
 
-          <p className="bio">
+          <p className="text-lg leading-relaxed text-subtext">
             I'm always eager to learn something new. Whether I'm building personal side projects,
             exploring a different Linux distribution, experimenting with an emerging technology stack, or
             discovering hidden gems in the world of gaming and anime, I try to approach every opportunity
@@ -54,16 +56,16 @@ export default function Home() {
           </p>
         </section>
 
-        <section className="links">
-          <h2>Find Me Online</h2>
-          <ul>
-            <li><a href="https://x.com/IdkAnythin07" target="_blank" rel="noreferrer">Twitter</a></li>
-            <li><a href="https://github.com/IdkAnythin07" target="_blank" rel="noreferrer">GitHub</a></li>
-            <li><a href="https://t.me/IdkAnythin07" target="_blank" rel="noreferrer">Telegram</a></li>
-            <li><a href="mailto:IdkAnythin07@proton.me">Email</a></li>
+        <section className="bg-surface0/50 p-8 rounded-xl border border-glass-border">
+          <h2 className="text-2xl font-bold mb-6 text-text-main">Find Me Online</h2>
+          <ul className="flex flex-wrap gap-6">
+            <li><a href="https://x.com/IdkAnythin07" target="_blank" rel="noreferrer" className="text-mauve hover:text-mauve-hover underline font-medium">Twitter</a></li>
+            <li><a href="https://github.com/IdkAnythin07" target="_blank" rel="noreferrer" className="text-mauve hover:text-mauve-hover underline font-medium">GitHub</a></li>
+            <li><a href="https://t.me/IdkAnythin07" target="_blank" rel="noreferrer" className="text-mauve hover:text-mauve-hover underline font-medium">Telegram</a></li>
+            <li><a href="mailto:IdkAnythin07@proton.me" className="text-mauve hover:text-mauve-hover underline font-medium">Email</a></li>
           </ul>
         </section>
       </main>
-    </>
+    </div>
   );
 }
