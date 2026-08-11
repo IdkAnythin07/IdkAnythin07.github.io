@@ -1,4 +1,4 @@
-importScripts("/pyodide/pyodide.js");
+import { loadPyodide } from "pyodide";
 
 let pyodidePromise = null;
 let inputState = null;

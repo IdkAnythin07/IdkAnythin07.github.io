@@ -9,7 +9,7 @@ export function initPyodide() {
         inputBuffer = new SharedArrayBuffer(1024);
         inputState = new Int32Array(inputBuffer, 0, 2);
 
-        worker = new Worker(new URL('./py-worker.js', import.meta.url));
+        worker = new Worker(new URL('./py-worker.js', import.meta.url), { type: 'module' });
         worker.postMessage({ type: 'init', buffer: inputBuffer });
         
         for (const [filename, data] of Object.entries(fileCache)) {
